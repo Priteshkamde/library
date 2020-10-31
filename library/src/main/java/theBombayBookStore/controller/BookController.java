@@ -10,9 +10,9 @@ import theBombayBookStore.repository.BookRepository;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200", "http://localhost:8999" })
 @RestController
 @RequestMapping("/bookstore")
-
 public class BookController {
 
     private BookRepository bookRepository;
@@ -48,13 +48,22 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/books/by/{author}")
-    public Optional<Book> getByAuthor(@PathVariable("author") String author){
+    public ResponseEntity<Book> getByAuthor(@PathVariable("author") String author){
         Optional<Book> book = this.bookRepository.findByAuthor(author);
 
-        return book;
+        if (book.isPresent()){
+            return new ResponseEntity<Book>(book.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+    @PostMapping("/add")
+    public void addBook(@RequestBody Book book){
+        this.bookRepository.save(book);
+    }
 
  }
 

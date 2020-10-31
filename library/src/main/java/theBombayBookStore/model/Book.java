@@ -3,6 +3,9 @@ package theBombayBookStore.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Document(collection = "AllBooks")
 public class Book {
@@ -12,15 +15,31 @@ public class Book {
     private String name;
     private String author;
     private int price;
-    private Boolean isPublished;
+    private int rating;
 
-    public Book(){}
+    private List<Review> reviews;
 
-    public Book(String name, String author, int price, Boolean isPublished) {
+    public Book() {}
+
+//    public Book(){
+//        this.reviews = new ArrayList<>();
+//    }
+
+    public Book(String name, String author, int price, int rating) {
         this.name = name;
         this.author = author;
         this.price = price;
-        this.isPublished = isPublished;
+        this.rating = rating;
+//        this.reviews = reviews;
+    }
+
+    public Book(String id, String name, String author, int price, int rating) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.price = price;
+        this.rating = rating;
+//        this.reviews = reviews;
     }
 
     public String getId() {
@@ -55,13 +74,22 @@ public class Book {
         this.price = price;
     }
 
-    public Boolean getPublished() {
-        return isPublished;
+    public int getRating() {
+        return rating;
     }
 
-    public void setPublished(Boolean published) {
-        isPublished = published;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
+
+
+//    public List<Review> getReviews() {
+//        return reviews;
+//    }
+//
+//    public void setReviews(List<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 
     @Override
     public String toString() {
@@ -70,7 +98,9 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", price=" + price +
-                ", isPublished=" + isPublished +
+                ", rating=" + rating +
+                ", reviews=" + reviews +
                 '}';
+
     }
 }
